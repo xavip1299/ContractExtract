@@ -3,8 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { extractContractData } from "@/lib/openai";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const pdfParse = require("pdf-parse") as (buf: Buffer) => Promise<{ text: string }>;
+import { extractText, getDocumentProxy } from "unpdf";
 
 const PLAN_QUOTAS = { FREE: 5, PRO: 100, ENTERPRISE: 1000 } as const;
 
@@ -76,8 +75,9 @@ export async function POST(req: NextRequest) {
     let text: string;
 
     if (file.type === "application/pdf") {
-      const parsed = await pdfParse(buffer);
-      text = parsed.text;
+      const pdf = await getDocumentProxy(new Uint8Array(buffer));
+      const { text: pdfText } = await extractText(pdf, { mergePages: true });
+      text = pdfText;
     } else {
       text = buffer.toString("utf-8");
     }

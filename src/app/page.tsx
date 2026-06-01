@@ -11,9 +11,56 @@ import {
   Briefcase,
 } from "lucide-react";
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "ContractExtract",
+  url: "https://www.contractextract.org",
+  applicationCategory: "BusinessApplication",
+  operatingSystem: "Web",
+  description:
+    "AI-powered contract data extraction. Upload any PDF or TXT contract and instantly extract parties, dates, payment terms, obligations, governing law, and more.",
+  offers: [
+    {
+      "@type": "Offer",
+      name: "Free",
+      price: "0",
+      priceCurrency: "USD",
+      description: "5 extractions per month",
+    },
+    {
+      "@type": "Offer",
+      name: "Pro",
+      price: "29",
+      priceCurrency: "USD",
+      description: "100 extractions per month",
+    },
+    {
+      "@type": "Offer",
+      name: "Enterprise",
+      price: "99",
+      priceCurrency: "USD",
+      description: "1000 extractions per month",
+    },
+  ],
+  featureList: [
+    "AI contract data extraction",
+    "PDF and TXT support",
+    "Parties identification",
+    "Payment terms extraction",
+    "Governing law detection",
+    "Termination clause analysis",
+    "JSON export",
+  ],
+};
+
 export default function LandingPage() {
   return (
     <div className="bg-gray-950 min-h-screen text-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Nav */}
       <nav className="fixed top-0 w-full z-50 bg-gray-950/80 backdrop-blur border-b border-gray-800">
         <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
